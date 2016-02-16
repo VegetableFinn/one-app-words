@@ -47,7 +47,10 @@ _letsGetSomeWords() {
 	_p "last_update_date : $(echo "$body" | jq '.data[0].last_update_date')"
 	_p "web_url : $(echo "$body" | jq '.data[0].web_url')"
 	_p "praisenum : $(echo "$body" | jq '.data[0].praisenum')"
-
+	mysql -uroot -ppasswd <<EOF
+	use one_app;
+		INERT INTO ONE (TITLE, IMG_URL, AUTHOR, CONTENT, HP_MAKETTIME) VALUES ('1','1','1','1','1');
+	EOF
 }
 
 _check
