@@ -20,12 +20,11 @@ _p() {
     printf "$@"
     printf "${RESET}\n"
 }
-
 _letsGetSomeWords() {
 	body=$(http -b $REQUEST_URL_2)
 	len=$(echo "$body" | jq '.data | length')
 	count=0
-	while count<len
+	while [ $count -lt $len ]
 	do
 		title=$(echo "$body" | jq '.data[$len].hp_title')
 		author=$(echo "$body" | jq '.data[$len].hp_author')
@@ -37,6 +36,7 @@ _letsGetSomeWords() {
 # 		use one_app;
 # 			insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');
 # EOF
+		((count++));
 	done
 }
 
