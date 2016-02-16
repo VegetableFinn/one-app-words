@@ -27,15 +27,12 @@ _letsGetSomeWords() {
 	while [ $count -lt $len ]
 	do
 		title=$(echo "$body" | jq '.data['$count'].hp_title')
-		author=$(echo "$body" | jq '.data['$count'].hp_author')
+		author_tmp=$(echo "$body" | jq '.data['$count'].hp_author')
+		author=${author_tmp//&/ and };
 		img_url=$(echo "$body" | jq '.data['$count'].ipad_url')
 		content=$(echo "$body" | jq '.data['$count'].hp_content')
 		hp_makettime=$(echo "$body" | jq '.data['$count'].hp_makettime')
 		mysql -uuser -ppasswd -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
-# 		mysql -uroot -ppasswd <<EOF 2>>error.log
-# 		use one_app;
-# 			insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');
-# EOF
 		((count++));
 	done
 }	
