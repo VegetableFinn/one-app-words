@@ -28,7 +28,7 @@ _letsGetSomeWords() {
 	do
 		title=$(echo "$body" | jq '.data['$count'].hp_title')
 		author_tmp=$(echo "$body" | jq '.data['$count'].hp_author')
-		author=${author_tmp//&/ and };
+		author=${author_tmp//'/ \\' };
 		img_url=$(echo "$body" | jq '.data['$count'].ipad_url')
 		content=$(echo "$body" | jq '.data['$count'].hp_content')
 		hp_makettime=$(echo "$body" | jq '.data['$count'].hp_makettime')
