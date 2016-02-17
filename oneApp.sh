@@ -35,22 +35,22 @@ _check() {
 
 _letsGetSomeWords() {
 	body=$(http -b $REQUEST_URL)
-	_p "hpcontent_id : $(echo "$body" | jq '.data[0].hpcontent_id')"
+	# _p "hpcontent_id : $(echo "$body" | jq '.data[0].hpcontent_id')"
 	title=$(echo "$body" | jq '.data[0].hp_title')
-	_p "author_id : $(echo "$body" | jq '.data[0].author_id')"
-	_p "hp_img_url : $(echo "$body" | jq '.data[0].hp_img_url')"
-	_p "hp_img_original_url : $(echo "$body" | jq '.data[0].hp_img_original_url')"
-	author=$(echo "$body" | jq '.data[0].hp_author')
+	# _p "author_id : $(echo "$body" | jq '.data[0].author_id')"
+	# _p "hp_img_url : $(echo "$body" | jq '.data[0].hp_img_url')"
+	# _p "hp_img_original_url : $(echo "$body" | jq '.data[0].hp_img_original_url')"
+	author_tmp=$(echo "$body" | jq '.data[0].hp_author')
+	author=${author_tmp//\'/\\\'}
 	img_url=$(echo "$body" | jq '.data[0].ipad_url')
 	content=$(echo "$body" | jq '.data[0].hp_content')
 	hp_makettime=$(echo "$body" | jq '.data[0].hp_makettime')
-	_p "last_update_date : $(echo "$body" | jq '.data[0].last_update_date')"
-	_p "web_url : $(echo "$body" | jq '.data[0].web_url')"
-	_p "praisenum : $(echo "$body" | jq '.data[0].praisenum')"
-	mysql -uroot -ppasswd <<EOF 2>>error.log
-	use one_app;
-		insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');
-EOF
+	# _p "last_update_date : $(echo "$body" | jq '.data[0].last_update_date')"
+	# _p "web_url : $(echo "$body" | jq '.data[0].web_url')"
+	# _p "praisenum : $(echo "$body" | jq '.data[0].praisenum')"
+
+	mysql -uuser -ppasswd -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
+
 }
 
 _check
