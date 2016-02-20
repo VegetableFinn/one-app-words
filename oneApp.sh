@@ -9,6 +9,7 @@ PINK="${RESET}\e[0;35m"
 CYAN="${RESET}\e[0;36m"
 
 REQUEST_URL="http://v3.wufazhuce.com:8000/api/hp/more/0"
+USER="root"
 PASSWORD=""
 
 _p() {
@@ -46,7 +47,7 @@ _letsGetSomeWords() {
 	# _p "web_url : $(echo "$body" | jq '.data[0].web_url')"
 	# _p "praisenum : $(echo "$body" | jq '.data[0].praisenum')"
 
-	mysql -uuser -p$PASSWORD -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
+	mysql -u$USER -p$PASSWORD -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
 
 }
 
