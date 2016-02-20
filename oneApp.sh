@@ -9,10 +9,7 @@ PINK="${RESET}\e[0;35m"
 CYAN="${RESET}\e[0;36m"
 
 REQUEST_URL="http://v3.wufazhuce.com:8000/api/hp/more/0"
-
-WORK_DIR=$(cd "$(dirname "$0")" && pwd)
-TEMP_FILE="$WORK_DIR/.one.temp"
-USER_AGENT="mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36"
+PASSWORD=""
 
 _p() {
     printf "$(date '+[%Y-%m-%d %H:%M:%S]') "
@@ -34,7 +31,7 @@ _check() {
 }
 
 _letsGetSomeWords() {
-	body=$(http -b $REQUEST_URL)
+	body=$(http -b $REQUEST_URL --ignore-stdin)
 	# _p "hpcontent_id : $(echo "$body" | jq '.data[0].hpcontent_id')"
 	title=$(echo "$body" | jq '.data[0].hp_title')
 	# _p "author_id : $(echo "$body" | jq '.data[0].author_id')"
@@ -49,7 +46,7 @@ _letsGetSomeWords() {
 	# _p "web_url : $(echo "$body" | jq '.data[0].web_url')"
 	# _p "praisenum : $(echo "$body" | jq '.data[0].praisenum')"
 
-	mysql -uuser -ppasswd -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
+	mysql -uuser -p$PASSWORD -e "use one_app;insert into one (title, img_url, author, content, hp_makettime) values ('$title','$img_url','$author','$content','$hp_makettime');"
 
 }
 
